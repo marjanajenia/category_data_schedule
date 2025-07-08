@@ -13,7 +13,7 @@ class SyncToProject_2 extends Command
      *
      * @var string
      */
-    protected $signature = 'app:sync-to-project_2';
+    protected $signature = 'sync:to-project2';
 
     /**
      * The console command description.
@@ -29,7 +29,13 @@ class SyncToProject_2 extends Command
     {
         $categories = Category::where('push_time', '<=', now())->get();
 
-        $response = Http::post('http://project2.test/api/import_category', $categories->toArray());
+        if ($categories->isEmpty()) {
+            \Log::info('No categories to push.');
+            return;
+        }
+        $response = Http::post('http://project_2.test/api/import_categoryy', $categories->toArray());
+
+         \Log::info('Categories pushed to Project 2');
 
         if ($response->successful()) {
             $this->info('Data synced to Project 2.');

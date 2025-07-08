@@ -20,4 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/export-category', [CategoryApiController::class, 'export_category']);
-Route::get('/import-category', [CategoryApiController::class, 'import_category']);
+Route::post('/import-category', [CategoryApiController::class, 'import_category']);
