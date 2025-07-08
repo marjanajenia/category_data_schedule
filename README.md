@@ -7,4 +7,22 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## Sync Data Between Projects via Scheduler
+Setup API Routes in Both Projects:
+
+In Project 1:( create POST route to accept data)
+Route::post('/import-categories', function (Request $request) {
+    foreach ($request->all() as $item) {
+        \App\Models\Category::updateOrCreate(['name' => $item['name']], [
+            'push_time' => $item['push_time'],
+        ]);
+    }
+    return response()->json(['message' => 'Imported']);
+});
+same in Project 2
+
+Create Laravel Command for Scheduling
+php artisan make:command SyncToProject2
+
+Run the scheduler 
+php artisan schedule:work
